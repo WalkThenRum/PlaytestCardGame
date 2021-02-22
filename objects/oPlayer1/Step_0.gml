@@ -1,0 +1,41 @@
+if(hp<=0){
+	with(pUnit){
+		if(other.id==creator.id){
+			instance_destroy();
+		}
+	}
+	instance_destroy();
+}
+
+if(beginTurn){
+	with(pUnit){
+		if(other.id==creator.id){
+			actions=maxActions;
+		}
+	}
+	if(turnMana<maxMana){
+		turnMana++;
+		mana=turnMana;
+	}
+	if(handSize<maxHandSize){
+		handSize++;
+	}
+	beginTurn=false;
+	active=true;
+}else if(active){
+	if(keyboard_check_pressed(vk_space)){
+		active=false;
+		oPlayer2.beginTurn=true;
+	}
+	if(!deckShuffled){
+		instance_create_depth(0,0,0,oDeck1);
+		deckSize=oDeck1.deckSize;
+		for(var i=0;i<deckSize;i++){
+			card[i]=oDeck1.card[oDeck1.deck[i]];
+			cardName[i]=oDeck1.cardName[oDeck1.deck[i]];
+			cardMana[i]=oDeck1.cardMana[oDeck1.deck[i]];
+		}
+		instance_destroy(oDeck1);
+		deckShuffled=true;
+	}
+}
